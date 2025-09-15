@@ -32,6 +32,90 @@
             overflow-x: hidden;
             position: relative;
         }
+		
+		/* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(18, 18, 18, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                gap: 30px;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 0;
+            }
+            
+            .menu-btn {
+                display: block;
+            }
+            
+            /* NEW: Reorder hero content for mobile */
+            .hero {
+                flex-direction: column-reverse; /* This puts the image above the text */
+                text-align: center;
+            }
+            
+            .hero-content {
+                padding: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+                margin-top: 20px;
+            }
+            
+            .hero-cta {
+                justify-content: center;
+            }
+            
+            .profile-img {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .img-border {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Additional small device optimization */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .img-border {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+        }
         
         /* 3D Background Canvas */
         #bg-canvas {
