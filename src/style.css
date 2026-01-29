@@ -660,4 +660,182 @@ p,
     right: 0;
     left: auto;
   }
+
+  /* Hero Mobile */
+  .hero-main-title {
+    font-size: 42px;
+    letter-spacing: 1px;
+  }
+
+  .hero-main-description {
+    font-size: 16px;
+  }
+
+  .hero-second-subheading {
+    font-size: 16px;
+  }
+
+  .hero-main {
+    bottom: 80px;
+    left: 20px;
+  }
+
+  .hero-second {
+    top: calc(50% - 150px);
+    right: 20px;
+  }
+
+  /* Section Mobile */
+  .section-margin {
+    height: 800px;
+  }
+
+  .section {
+    padding: 300px 5%;
+  }
+
+  .section-intro-wrapper {
+    padding: 8% 4%;
+    padding-bottom: 80px;
+  }
+
+  .section-detail-wrapper {
+    padding: 8% 4%;
+  }
+
+  .section-title-text {
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+
+  .section-heading {
+    font-size: 22px;
+  }
+
+  .section-text {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .experience-text {
+    font-size: 14px;
+  }
+
+  .section-number {
+    font-size: 32px;
+  }
+
+  /* About Image Mobile */
+  .about-image-container {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 30px;
+  }
+
+  /* Buttons Mobile */
+  .mybutton {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+
+  /* Toggle Bar Mobile */
+  .toggle-bar {
+    top: 20px;
+    right: 20px;
+  }
+
+  .infosite {
+    top: 20px;
+    left: 15px;
+  }
+
+  /* Decorative Elements */
+  .styleOne,
+  .styleTwo,
+  .styleThree {
+    max-width: 180px;
+    height: 40px;
+  }
+
+  .styleTwo {
+    top: 50px;
+  }
+
+  .styleThree {
+    top: 50px;
+  }
+
+  /* Left/Right Section Radius */
+  .left {
+    border-top-right-radius: 300px 300px;
+  }
+
+  .right {
+    border-top-left-radius: 300px 300px;
+  }
+}
+
+/* Extra Small Mobile (below 480px) */
+@media (max-width: 480px) {
+
+  html,
+  body {
+    font-size: 16px;
+  }
+
+  .hero-main-title {
+    font-size: 32px;
+  }
+
+  .hero-main-description {
+    font-size: 14px;
+  }
+
+  .hero-second-subheading {
+    font-size: 14px;
+  }
+
+  .section-margin {
+    height: 600px;
+  }
+
+  .section {
+    padding: 200px 4%;
+  }
+
+  .section-title-text {
+    font-size: 26px;
+  }
+
+  .section-heading {
+    font-size: 18px;
+  }
+
+  .section-text {
+    font-size: 14px;
+  }
+
+  .about-image-container {
+    width: 160px;
+    height: 160px;
+  }
+
+  .mybutton {
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+
+  .toggle-button {
+    width: 48px;
+    height: 24px;
+  }
+
+  .toggle-circle {
+    width: 16px;
+    height: 16px;
+  }
+
+  .slide {
+    left: 26px;
+  }
 }
