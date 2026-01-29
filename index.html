@@ -1,1460 +1,338 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" href="/src/style.css" />
+    <script type="module" src="/src/main.js"></script>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
     <meta name="google-site-verification" content="U5m30l6Jn5vBiqDa6st1BOlf7YkX3SynHXFzqWsx284" />
     <title>Vinayaka V | Visual Poetry</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* --- Variables & Reset --- */
-        :root {
-            --primary: #FFD700;
-            /* Gold/Yellow - Premium */
-            --dark: #0a0a0a;
-            /* Deep Black */
-            --darkv2: #141414;
-            /* Lighter Black */
-            --light: #fafafa;
-            /* Off-white */
-            --gray: #888888;
-            --border-radius: 20px;
-            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
-            overflow-x: hidden;
-            line-height: 1.7;
-            position: relative;
-        }
-
-        /* Noise Texture */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.5;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Clash Display', sans-serif;
-            font-weight: 500;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* --- Utilities --- */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 40px;
-            border-radius: 100px;
-            font-weight: 500;
-            transition: var(--transition);
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.85rem;
-            border: 1px solid transparent;
-        }
-
-        .btn-primary {
-            background-color: var(--dark);
-            color: var(--light);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary);
-            color: var(--dark);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .btn-outline {
-            border-color: var(--dark);
-            color: var(--dark);
-            background: transparent;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--dark);
-            color: var(--light);
-            transform: translateY(-4px);
-        }
-
-        .section-padding {
-            padding: 120px 0;
-        }
-
-        /* --- Animations --- */
-        /* Removed scroll animations for 'official' look */
-        .reveal {
-            opacity: 1;
-            transform: none;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 30px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            transition: all 0.4s ease;
-            /* Added border and slight shadow for visibility on white */
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-        }
-
-        header.scrolled {
-            padding: 15px 0;
-            background: var(--primary);
-            /* Turns Yellow */
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
-            border-bottom: none;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            font-family: 'Clash Display', sans-serif;
-            letter-spacing: -1px;
-            color: var(--dark);
-        }
-
-        header.scrolled .logo,
-        header.scrolled .nav-links a,
-        header.scrolled .mobile-menu-btn {
-            color: var(--dark);
-            /* Ensure contrast on yellow */
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 50px;
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 600;
-            position: relative;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--dark);
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--dark);
-            transition: width 0.3s;
-        }
-
-        header.scrolled .nav-links a::after {
-            background-color: var(--dark);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 100px;
-            position: relative;
-            overflow: hidden;
-            /* Yellow and White Split Background */
-            background: linear-gradient(135deg, var(--light) 50%, var(--primary) 50%);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 60px;
-            width: 100%;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 8.5rem;
-            line-height: 0.85;
-            margin-bottom: 30px;
-            color: var(--dark);
-            text-transform: lowercase;
-            letter-spacing: -5px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-text h1 span {
-            display: block;
-        }
-
-        .hero-text h1 .highlight {
-            color: transparent;
-            -webkit-text-stroke: 2px var(--dark);
-            position: relative;
-            display: inline-block;
-            /* Ensure block model for pseudo-element */
-        }
-
-        /* Fixed Poetry Animation */
-        .hero-text h1 .highlight::before {
-            content: 'poetry';
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: var(--dark);
-            /* Changed from light to dark for visibility on white/yellow split */
-            width: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 4px solid var(--dark);
-            animation: typeType 4s steps(6) infinite alternate;
-        }
-
-        /* Highlight background transition fix requested by user */
-        .hero-text h1 .highlight::after {
-            content: '';
-            position: absolute;
-            top: 10%;
-            bottom: 10%;
-            left: -5%;
-            right: -5%;
-            background: var(--primary);
-            z-index: -1;
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: highlightSwipe 4s infinite alternate;
-            opacity: 0.5;
-        }
-
-        @keyframes typeType {
-
-            0%,
-            10% {
-                width: 0;
-            }
-
-            40%,
-            100% {
-                width: 100%;
-            }
-        }
-
-        @keyframes highlightSwipe {
-
-            0%,
-            20% {
-                transform: scaleX(0);
-            }
-
-            50%,
-            100% {
-                transform: scaleX(1);
-            }
-        }
-
-        .hero-description {
-            font-size: 1.25rem;
-            color: #444;
-            max-width: 480px;
-            margin-bottom: 50px;
-            margin-left: 10px;
-            font-weight: 400;
-        }
-
-        .hero-stat-card {
-            background-color: var(--dark);
-            color: var(--light);
-            padding: 30px 40px;
-            border-radius: var(--border-radius);
-            display: inline-flex;
-            gap: 60px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            margin-top: 20px;
-        }
-
-        .stat h3 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 0px;
-            line-height: 1;
-        }
-
-        .stat p {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #888;
-            margin-top: 10px;
-        }
-
-        .hero-image-card {
-            position: relative;
-            height: 700px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        /* Blob Background - Adjusted color for visibility on yellow */
-        .hero-blob {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: linear-gradient(45deg, #ffffff, #f0f0f0);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            animation: morph 8s ease-in-out infinite;
-            z-index: -1;
-            opacity: 0.6;
-            filter: blur(40px);
-        }
-
-        @keyframes morph {
-
-            0%,
-            100% {
-                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            }
-
-            50% {
-                border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
-            }
-        }
-
-        .hero-img {
-            width: 90%;
-            height: auto;
-            max-height: 90%;
-            object-fit: cover;
-            z-index: 2;
-            transition: transform 0.7s;
-            filter: contrast(1.1);
-            border-radius: 20px;
-            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-image-card:hover .hero-img {
-            transform: scale(1.02);
-        }
-
-        /* Floating Badge - Simplified without text */
-        .floating-badge {
-            position: absolute;
-            bottom: 40px;
-            right: -20px;
-            background: var(--dark);
-            color: var(--primary);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            z-index: 5;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .floating-badge:hover {
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .hero {
-                background: linear-gradient(180deg, var(--light) 60%, var(--primary) 60%);
-                padding-top: 50px;
-                /* More space for text */
-                height: 100vh;
-                /* Full height for focus */
-                align-items: center;
-            }
-
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                text-align: center;
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            .hero-image-card {
-                display: none;
-                /* Hide Image as requested */
-            }
-
-            /* Center and Enhance Blob for Visual Interest */
-            .hero-blob {
-                width: 350px;
-                height: 350px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                /* Center perfectly */
-                opacity: 0.7;
-                filter: blur(50px);
-                background: linear-gradient(45deg, var(--primary), #ffffff);
-                /* More Gold */
-                animation: morph 6s ease-in-out infinite, pulseGlow 4s ease-in-out infinite;
-            }
-
-            .hero-text h1 {
-                font-size: 4rem;
-                /* Larger text since image is gone */
-                line-height: 1.1;
-                margin-bottom: 25px;
-            }
-
-            .hero-description {
-                font-size: 1.1rem;
-                max-width: 90%;
-                margin: 0 auto 40px auto;
-            }
-
-            .hero-btns {
-                justify-content: center;
-                margin-bottom: 40px;
-            }
-        }
-
-        @keyframes pulseGlow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-            }
-
-            50% {
-                box-shadow: 0 0 80px rgba(255, 215, 0, 0.6);
-            }
-        }
-
-        /* --- About Section --- */
-        .about-section {
-            background-color: var(--dark);
-            color: var(--light);
-            border-radius: 60px 60px 0 0;
-            margin-top: -60px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .about-img-container {
-            position: relative;
-            height: 600px;
-        }
-
-        .about-img {
-            border-radius: 20px;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
-            transition: all 0.5s;
-        }
-
-        .about-img:hover {
-            filter: grayscale(0%) contrast(1);
-        }
-
-        .section-header {
-            margin-bottom: 40px;
-        }
-
-        .section-label {
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            display: block;
-            font-weight: 600;
-        }
-
-        .section-header h2 {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            letter-spacing: -2px;
-        }
-
-        .about-content p {
-            color: #aaa;
-            font-size: 1.15rem;
-            margin-bottom: 30px;
-            max-width: 550px;
-            font-weight: 300;
-        }
-
-        /* --- Services (Cyber/Glassy Cards) --- */
-        .services-section {
-            background-color: var(--dark);
-            /* Switched to dark as per 'switch colors' request for cards section */
-            position: relative;
-            overflow: hidden;
-            color: var(--light);
-        }
-
-        /* Background gradient blob for glassy effect source */
-        .services-section::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 60%);
-            opacity: 0.3;
-            z-index: 0;
-            filter: blur(80px);
-        }
-
-        .section-title-big {
-            font-size: 10rem;
-            font-weight: 700;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
-            /* Increased stroke/opacity for visibility */
-            text-align: center;
-            line-height: 1;
-            margin-bottom: 20px;
-            /* Positive margin to show text BEFORE cards */
-            padding-top: 60px;
-            position: relative;
-            z-index: 0;
-            /* Behind cards */
-            user-select: none;
-            letter-spacing: 10px;
-            /* Wider spacing */
-            white-space: nowrap;
-            width: 100%;
-            pointer-events: none;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            position: relative;
-            z-index: 2;
-            /* Sits on top of text */
-            padding: 0 20px;
-        }
-
-        /* Glassy Card - Cyber Style */
-        .service-card {
-            background: rgba(255, 255, 255, 0.05);
-            /* Dark Glass */
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 450px;
-            border-radius: var(--border-radius);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-
-        /* Hover Effect: Scale Up & Glow */
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* Card Image - Full fitting */
-        .service-card-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.4;
-            transition: all 0.6s ease;
-            filter: grayscale(100%);
-            z-index: -1;
-        }
-
-        .service-card:hover .service-card-img {
-            opacity: 0.8;
-            filter: grayscale(0%);
-            transform: scale(1.1);
-        }
-
-        /* Gradient Overlay for Text Readability */
-        .service-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70%;
-            background: linear-gradient(to top, #000 0%, transparent 100%);
-            z-index: 0;
-            opacity: 0.9;
-        }
-
-        .service-content-wrapper {
-            padding: 30px;
-            position: relative;
-            z-index: 1;
-            transform: translateY(20px);
-            transition: transform 0.4s ease;
-        }
-
-        .service-card:hover .service-content-wrapper {
-            transform: translateY(0);
-        }
-
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .service-title {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .service-desc {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.5;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s ease 0.1s;
-            max-height: 0;
-        }
-
-        .service-card:hover .service-desc {
-            opacity: 1;
-            transform: translateY(0);
-            max-height: 100px;
-        }
-
-        /* Arrow indicator */
-        .service-arrow {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            color: #fff;
-            font-size: 1.2rem;
-            opacity: 0.5;
-            transition: all 0.3s;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .service-card:hover .service-arrow {
-            color: var(--primary);
-            opacity: 1;
-            transform: rotate(-45deg);
-        }
-
-        /* --- Portfolio --- */
-        .portfolio-section {
-            background-color: var(--dark);
-            color: var(--light);
-            padding-bottom: 200px;
-            position: relative;
-            border-top: 1px solid #222;
-        }
-
-        .portfolio-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 80px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 40px;
-        }
-
-        .portfolio-header h2 {
-            font-size: 3rem;
-            /* Reduced from 4rem */
-            color: var(--light);
-        }
-
-        .portfolio-header h2 span {
-            color: var(--primary);
-            font-style: italic;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            /* Adjusted for better fit */
-            gap: 40px;
-            /* Reduced gap */
-        }
-
-        .project-card {
-            position: relative;
-            border-radius: 0;
-            overflow: hidden;
-            height: 400px;
-            /* Reduced from 600px */
-            cursor: pointer;
-            border-radius: var(--border-radius);
-            background-color: var(--darkv2);
-        }
-
-        /* Staggered Grid - reduced margin */
-        .project-card:nth-child(even) {
-            margin-top: 60px;
-        }
-
-        .project-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-            filter: brightness(0.8);
-        }
-
-        .project-card:hover .project-img {
-            transform: scale(1.1);
-            filter: brightness(1);
-        }
-
-        .project-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
-            opacity: 0.6;
-            transition: opacity 0.5s;
-        }
-
-        .project-card:hover .project-overlay {
-            opacity: 0.8;
-        }
-
-        .project-info {
-            position: absolute;
-            bottom: 40px;
-            left: 40px;
-            z-index: 2;
-            transform: translateY(20px);
-            transition: transform 0.5s;
-        }
-
-        .project-card:hover .project-info {
-            transform: translateY(0);
-        }
-
-        .project-cat {
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            color: var(--light);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .project-title {
-            font-size: 2.5rem;
-            color: var(--light);
-            margin: 0;
-        }
-
-        /* --- Resume / Experience --- */
-        .resume-section {
-            background-color: var(--light);
-        }
-
-        .resume-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .resume-item {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            padding: 40px 0;
-            border-bottom: 1px solid #eee;
-            transition: var(--transition);
-        }
-
-        .resume-item:hover {
-            border-bottom-color: var(--primary);
-            padding-left: 20px;
-            background: rgba(255, 215, 0, 0.05);
-        }
-
-        .resume-year {
-            font-weight: 600;
-            font-size: 1rem;
-            opacity: 0.8;
-            letter-spacing: 1px;
-            color: var(--gray);
-            /* Gray is visible enough, or use light */
-        }
-
-        .resume-content h4 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: var(--light);
-            /* Changed from dark to light */
-        }
-
-        .resume-content h5 {
-            font-weight: 400;
-            color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        /* --- Contact --- */
-        .contact-section {
-            background-color: var(--primary);
-            color: var(--dark);
-            text-align: center;
-            border-radius: 60px 60px 0 0;
-            padding-bottom: 80px;
-            margin-top: -100px;
-            position: relative;
-            z-index: 5;
-        }
-
-        .contact-content {
-            padding-top: 80px;
-        }
-
-        .contact-content h2 {
-            font-size: 5rem;
-            margin-bottom: 30px;
-            letter-spacing: -2px;
-        }
-
-        .email-link {
-            font-size: 3rem;
-            font-weight: 600;
-            border-bottom: 4px solid var(--dark);
-            display: inline-block;
-            margin-bottom: 60px;
-            transition: var(--transition);
-            line-height: 1.2;
-        }
-
-        .email-link:hover {
-            color: var(--light);
-            border-color: var(--light);
-            transform: scale(1.05);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        .social-btn {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: 2px solid var(--dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            transition: var(--transition);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .social-btn:hover {
-            background-color: var(--dark);
-            color: var(--primary);
-            transform: rotate(360deg);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--dark);
-            color: #555;
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 1024px) {
-            .hero-text h1 {
-                font-size: 6rem;
-            }
-
-            .section-title-big {
-                font-size: 8rem;
-            }
-
-            .about-img-container {
-                height: 400px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 25px;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 100%;
-                height: 100vh;
-                background-color: var(--light);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-                z-index: 999;
-                gap: 40px;
-            }
-
-            .nav-links a {
-                font-size: 1.5rem;
-                color: var(--dark);
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-                z-index: 1000;
-            }
-
-            .hero {
-                padding-top: 120px;
-                height: auto;
-                min-height: auto;
-                padding-bottom: 80px;
-            }
-
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-
-            .hero-text {
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 4.5rem;
-                letter-spacing: -2px;
-            }
-
-            .hero-description {
-                margin: 0 auto 40px;
-                font-size: 1.1rem;
-            }
-
-            .hero-btns {
-                justify-content: center;
-            }
-
-            .hero-stat-card {
-                width: 100%;
-                justify-content: center;
-                gap: 30px;
-            }
-
-            .hero-image-card {
-                height: 450px;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-img-container {
-                height: 400px;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-card:nth-child(even) {
-                margin-top: 0;
-            }
-
-            .section-header h2,
-            .contact-content h2,
-            .portfolio-header h2 {
-                font-size: 3rem;
-            }
-
-            .section-title-big {
-                font-size: 5rem;
-            }
-
-            .resume-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .email-link {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
 </head>
 
-<body>
+<body class="light-theme">
+    <div class="experience">
+        <canvas class="experience-canvas"></canvas>
+    </div>
 
-    <!-- Header -->
-    <header id="header">
-        <div class="container nav-container">
-            <div class="logo">
-                VINAYAKA V.
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Work</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </div>
+    <!-- Before load -->
+    <div class="preloader">
+        <div class="preloader-wrapper">
+            <div class="loader"></div>
+            <div class="loadtext">Loading portfolio...<br>(⊙ Д ⊙)</div>
         </div>
-    </header>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-blob"></div>
-        <div class="container">
-            <div class="hero-grid">
-                <div class="hero-text reveal">
-                    <h1>
-                        visual
-                        <span class="highlight">poetry</span>
-                    </h1>
-                    <p class="hero-description">
-                        I craft digital experiences that merge technical precision with artistic expression.
-                        Specializing in high-performance web & mobile applications.
-                    </p>
-                    <div class="hero-btns">
-                        <a href="#portfolio" class="btn btn-primary">View Portfolio</a>
-                        <a href="#contact" class="btn btn-outline">Contact Me</a>
-                    </div>
+    <!-- Loaded -->
+    <div class="page" asscroll-container>
 
-                    <div class="hero-stat-card">
-                        <div class="stat">
-                            <h3>2+</h3>
-                            <p>Years Exp.</p>
-                        </div>
-                        <div class="stat">
-                            <h3>10+</h3>
-                            <p>Projects</p>
-                        </div>
-                        <div class="stat">
-                            <h3>100%</h3>
-                            <p>Satisfaction</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hero-image-card reveal">
-                    <div class="floating-badge">
-                        <i class="fas fa-arrow-down"></i>
-                    </div>
-                    <!-- Using Clipper wrapper for better image shape control if needed, but direct img for now -->
-                    <img src="vinayaka.jpeg" alt="Vinayaka V" class="hero-img">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section-padding about-section" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-img-container reveal">
-                    <img src="vinayaka.jpeg" alt="About Vinayaka" class="about-img">
-                </div>
-                <div class="about-content reveal">
-                    <div class="section-header">
-                        <span class="section-label">About Me</span>
-                        <h2>Hey There, <br> I'm Vinayaka</h2>
-                    </div>
-                    <p>
-                        I'm a passionate Computer Science Engineering student specializing in mobile development with
-                        React Native. I'm dedicated to transforming complex problems into intuitive solutions.
-                    </p>
-                    <p>
-                        Currently working as an Intern React Native Developer at Novafuze Inc., leading a team of
-                        developers in creating innovative web applications.
-                    </p>
-
-                    <div style="margin-top: 50px;">
-                        <div class="resume-item">
-                            <div class="resume-year">2023 - 2027</div>
-                            <div class="resume-content">
-                                <h4>Bachelor in Computer Science</h4>
-                                <h5>Gopalan College of Engineering</h5>
-                            </div>
-                        </div>
-                        <div class="resume-item">
-                            <div class="resume-year">2025 - Present</div>
-                            <div class="resume-content">
-                                <h4>Intern React Native Developer</h4>
-                                <h5>Novafuze Inc.</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services / Skills (Glassy Cyber Cards) -->
-    <section class="section-padding services-section" id="services">
-        <div class="section-title-big" style="color: rgba(255,255,255,0.05); -webkit-text-stroke: 0;">SKILLS</div>
-        <div class="container">
-            <div class="services-grid">
-                <!-- Skill 1: Web Dev -->
-                <div class="service-card reveal">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        class="service-card-img" alt="Web Dev">
-                    <i class="fas fa-arrow-right service-arrow"></i>
-                    <div class="service-content-wrapper">
-                        <i class="fas fa-code service-icon"></i>
-                        <h3 class="service-title">Web Development</h3>
-                        <p class="service-desc">Building responsive, high-performance websites using modern technologies
-                            like React, Node.js, and HTML5/CSS3.</p>
-                    </div>
-                </div>
-
-                <!-- Skill 2: App Dev -->
-                <div class="service-card reveal">
-                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        class="service-card-img" alt="App Dev">
-                    <i class="fas fa-arrow-right service-arrow"></i>
-                    <div class="service-content-wrapper">
-                        <i class="fas fa-mobile-alt service-icon"></i>
-                        <h3 class="service-title">App Development</h3>
-                        <p class="service-desc">Expertise in React Native for creating seamless cross-platform mobile
-                            applications for iOS and Android.</p>
-                    </div>
-                </div>
-
-                <!-- Skill 3: UI/UX -->
-                <div class="service-card reveal">
-                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        class="service-card-img" alt="UI/UX">
-                    <i class="fas fa-arrow-right service-arrow"></i>
-                    <div class="service-content-wrapper">
-                        <i class="fas fa-paint-brush service-icon"></i>
-                        <h3 class="service-title">UI/UX Design</h3>
-                        <p class="service-desc">Designing intuitive and visually stunning user interfaces that
-                            prioritize user experience and accessibility.</p>
-                    </div>
-                </div>
-
-                <!-- Skill 4: Python -->
-                <div class="service-card reveal">
-                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        class="service-card-img" alt="Python">
-                    <i class="fas fa-arrow-right service-arrow"></i>
-                    <div class="service-content-wrapper">
-                        <i class="fab fa-python service-icon"></i>
-                        <h3 class="service-title">Python</h3>
-                        <p class="service-desc">Proficient in Python scripting, backend development, and automation
-                            tasks.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="section-padding portfolio-section" id="portfolio">
-        <div class="portfolio-header reveal">
-            <h2>Featured <span>Works</span></h2>
-            <a href="#" class="btn btn-outline" style="border-color: #fff; color: #fff;">View All Projects</a>
-        </div>
-
-        <div class="project-grid">
-            <!-- Project 1: RoamAroundWild -->
-            <a href="https://www.roamaroundwild.app/" target="_blank" class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="Travel Website">
-                <div class="project-info">
-                    <span class="project-cat">Web Development</span>
-                    <h3 class="project-title">Roam Around Wild</h3>
-                </div>
+        <div class="infosite">
+            <a href="https://github.com/Vinayaka-V464" target="_blank" rel="noopener noreferrer">
+                <button class="mybutton">
+                    <span>My GitHub!</span>
+                </button>
             </a>
+        </div>
 
-            <!-- Project 2: MCP Chatbot -->
-            <div class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="MCP Chatbot">
-                <div class="project-info">
-                    <span class="project-cat">AI / Chatbot</span>
-                    <h3 class="project-title">MCP Chatbot</h3>
-                </div>
+        <div class="toggle-bar">
+            <div class="sun-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#5f6368">
+                    <path fill="currentColor"
+                        d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z" />
+                </svg>
             </div>
 
-            <!-- Project 3: School SAS -->
-            <div class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="School SAS">
-                <div class="project-info">
-                    <span class="project-cat">Software Solution</span>
-                    <h3 class="project-title">School SAS System</h3>
-                </div>
-            </div>
+            <button class="toggle-button">
+                <div class="toggle-circle"></div>
+            </button>
 
-            <!-- Project 4: Hospital Management -->
-            <div class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="Hospital Management">
-                <div class="project-info">
-                    <span class="project-cat">Management System</span>
-                    <h3 class="project-title">Hospital Management</h3>
-                </div>
-            </div>
-
-            <!-- Project 5: Question Paper Generator -->
-            <div class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="Question Paper Generator">
-                <div class="project-info">
-                    <span class="project-cat">Automation</span>
-                    <h3 class="project-title">Auto Question Paper Gen</h3>
-                </div>
-            </div>
-
-            <!-- Project 6: College Website -->
-            <div class="project-card reveal">
-                <div class="project-overlay"></div>
-                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                    class="project-img" alt="College Website">
-                <div class="project-info">
-                    <span class="project-cat">Web Development</span>
-                    <h3 class="project-title">College Website</h3>
-                </div>
+            <div class="moon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="#5f6368">
+                    <path fill="currentColor"
+                        d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z" />
+                </svg>
             </div>
         </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section class="section-padding contact-section" id="contact">
-        <div class="container">
-            <div class="contact-content reveal">
-                <h2>Let's Create <br>Something Amazing</h2>
-                <p
-                    style="margin-bottom: 40px; font-size: 1.2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    Have a project in mind or just want to verify my skills? I'm always open to discussing new projects
-                    and opportunities.
-                </p>
 
-                <a href="mailto:vinayakavini464@gmail.com" class="email-link">vinayakavini464@gmail.com</a>
+        <div class="page-wrapper" asscroll>
+            <section class="hero">
+                <div class="hero-wrapper">
 
-                <div class="social-links">
-                    <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    <!-- Preload -->
+                    <div class="intro-text">Ready!<br>('• ω • `)</div>
+                    <div class="arrow-svg-wrapper"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                            viewBox="0 -960 960 960" width="24px" fill="#5f6368">
+                            <path fill="currentColor"
+                                d="M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z" />
+                        </svg></div>
+                    <div class="hero-main">
+                        <h1 class="hero-main-title">Vinayaka V</h1>
+                        <p class="hero-main-description">Web & Mobile Development | Visual Poetry</p>
+                    </div>
+
+                    <div class="hero-second">
+                        <p class="hero-second-subheading first-sub">B.E. Computer Science</p>
+                        <p class="hero-second-subheading second-sub">React Native Developer</p>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <div class="first-move section-margin"></div>
+
+            <section class="first-section section left">
+                <div class="progress-wrapper progress-bar-wrapper-left">
+                    <div class="progress-bar brown-background"></div>
+                </div>
+                <div class="section-intro-wrapper">
+                    <h1 class="section-title">
+                        <span class="section-title-text">About Me</span>
+                        <div class="section-title-decoration styleOne">
+                        </div>
+                        <div class="section-title-decoration styleTwo">
+                        </div>
+                        <div class="section-title-decoration styleThree">
+                        </div>
+                    </h1>
+                    <span class="section-number">01</span>
+                </div>
+
+                <div class="section-detail-wrapper">
+                    <div class="about-image-container">
+                        <img src="vinayaka.jpeg" alt="Vinayaka V" class="about-profile-img">
+                    </div>
+                    <h3 class="section-heading">Hello!</h3>
+                    <p class="section-text">I'm Vinayaka V, welcome to my interactive 3D portfolio. I craft digital
+                        experiences that merge technical precision with artistic expression. This portfolio showcases my
+                        journey as a developer!</p>
+                    <br>
+                    <br>
+                    <h3 class="section-heading">Web & Mobile Development</h3>
+                    <p class="section-text">I'm a passionate Computer Science Engineering student specializing in mobile
+                        development with React Native. Currently working as an Intern React Native Developer at Novafuze
+                        Inc., I lead a team of developers in creating innovative web and mobile applications.</p>
+                    <br>
+                    <br>
+                    <div class="resume">
+                        <a href="https://github.com/Vinayaka-V464" target="_blank" rel="noopener noreferrer">
+                            <button class="mybutton">
+                                <span>View my GitHub!</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="resume">
+                        <br>
+                        <a href="https://www.roamaroundwild.app/" target="_blank" rel="noopener noreferrer">
+                            <button class="mybutton">
+                                <span>View my projects!</span>
+                            </button>
+                        </a>
+                    </div>
+                    <br>
+                    <br>
+                    <h3 class="section-heading">Technical Focus</h3>
+                    <p class="section-text">I specialize in building responsive, high-performance websites and
+                        cross-platform mobile applications. My expertise spans React Native, React.js, Node.js, and
+                        modern frontend technologies.</p>
+                    <br>
+                    <br>
+                    <h3 class="section-heading">Creative Vision</h3>
+                    <p class="section-text">I believe in "Visual Poetry" - the art of creating digital experiences that
+                        are not just functional but truly beautiful. Every project I undertake aims to transform complex
+                        problems into intuitive, elegant solutions.</p>
+                    <br>
+                </div>
+
+            </section>
+
+            <div class="second-move section-margin"></div>
+
+            <section class="second-section section right">
+                <div class="progress-wrapper progress-bar-wrapper-right">
+                    <div class="progress-bar brown-background"></div>
+                </div>
+                <div class="section-intro-wrapper">
+                    <h1 class="section-title">
+                        <span class="section-title-text">Experience</span>
+                        <div class="section-title-decoration styleOne">
+                        </div>
+                        <div class="section-title-decoration styleTwo">
+                        </div>
+                        <div class="section-title-decoration styleThree">
+                        </div>
+                    </h1>
+                    <span class="section-number">02</span>
+                </div>
+
+                <div class="section-detail-wrapper">
+                    <div class="resume">
+                        <br>
+                        <a href="mailto:vinayakavini464@gmail.com">
+                            <button class="mybutton">
+                                <span>Contact me!</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <br>
+                    <br>
+                    <h3 class="section-heading">Work Experience</h3>
+                    <hr>
+                    <br>
+                    <h4>NOVAFUZE INC.</h4>
+                    <p><span class="leftalign experience-text">Intern React Native Developer</span><span
+                            class="rightalign experience-text">2025 - Present</span></p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h3 class="section-heading">Education</h3>
+                    <hr>
+                    <br>
+                    <h4>GOPALAN COLLEGE OF ENGINEERING</h4>
+                    <p><span class="leftalign experience-text">B.E. Computer Science</span><span
+                            class="rightalign experience-text">2023 - 2027</span></p>
+                </div>
+
+            </section>
+
+            <div class="third-move section-margin"></div>
+
+            <section class="third-section section left">
+                <div class="progress-wrapper progress-bar-wrapper-left">
+                    <div class="progress-bar brown-background"></div>
+                </div>
+                <div class="section-intro-wrapper">
+                    <h1 class="section-title">
+                        <span class="section-title-text">Skills</span>
+                        <div class="section-title-decoration styleOne">
+                        </div>
+                        <div class="section-title-decoration styleTwo">
+                        </div>
+                        <div class="section-title-decoration styleThree">
+                        </div>
+                    </h1>
+                    <span class="section-number">03</span>
+                </div>
+
+                <div class="section-detail-wrapper">
+                    <h3 class="section-heading">Mobile Development</h3>
+                    <hr>
+                    <ul class="section-text">
+                        <li>React Native</li>
+                        <li>Cross-platform Apps (iOS & Android)</li>
+                        <li>Mobile UI/UX</li>
+                    </ul>
+                    <br>
+                    <h3 class="section-heading">Web Development</h3>
+                    <hr>
+                    <ul class="section-text">
+                        <li>Frontend
+                            <ul>
+                                <li>React.js, HTML5, CSS3</li>
+                                <li>JavaScript / TypeScript</li>
+                            </ul>
+                        </li>
+                        <li>Backend
+                            <ul>
+                                <li>Node.js, Express</li>
+                                <li>MySQL, MongoDB</li>
+                            </ul>
+                        </li>
+                        <li>UI/UX Design
+                            <ul>
+                                <li>Figma, Adobe XD</li>
+                                <li>Responsive Design</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <br>
+                    <h3 class="section-heading">Other Skills</h3>
+                    <hr>
+                    <ul class="section-text">
+                        <li>Python</li>
+                        <li>Git & GitHub</li>
+                        <li>API Development</li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <div class="fourth-move section-margin"></div>
+
+
+            <section class="fourth-section section right">
+                <div class="progress-wrapper progress-bar-wrapper-right">
+                    <div class="progress-bar brown-background"></div>
+                </div>
+                <div class="section-intro-wrapper">
+                    <h1 class="section-title">
+                        <span class="section-title-text">Contact Me</span>
+                        <div class="section-title-decoration styleOne">
+                        </div>
+                        <div class="section-title-decoration styleTwo">
+                        </div>
+                        <div class="section-title-decoration styleThree">
+                        </div>
+                    </h1>
+                    <span class="section-number">04</span>
+                </div>
+
+                <div class="section-detail-wrapper">
+                    <h3 class="section-heading">Let's Create Something Amazing!</h3>
+                    <p class="section-text">Have a project in mind or want to collaborate? I'm always open to discussing
+                        new projects and opportunities. Let's create something with Visual Poetry!</p>
+                    <div class="linkedin">
+                        <br>
+                        <a href="mailto:vinayakavini464@gmail.com">
+                            <button class="mybutton">
+                                <span>Email Me</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="instagram">
+                        <br>
+                        <a href="https://github.com/Vinayaka-V464" target="_blank" rel="noopener noreferrer">
+                            <button class="mybutton">
+                                <span>GitHub</span>
+                            </button>
+                        </a>
+                    </div>
+                    <br><br>
+                    <h3 class="section-heading">Featured Projects ✨</h3>
+                    <p class="section-text">Check out some of my work:</p>
+                    <div class="instagram">
+                        <br>
+                        <a href="https://www.roamaroundwild.app/" target="_blank" rel="noopener noreferrer">
+                            <button class="mybutton">
+                                <span>Roam Around Wild</span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+
+            </section>
+
+
+
+
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Vinayaka V. All Rights Reserved. Designed with Visual Poetry.</p>
-        </div>
-    </footer>
 
-    <!-- Scripts -->
-    <script>
-        // Header Scroll Effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile Menu Toggle
-        const menuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            // Toggle icon
-            const icon = menuBtn.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuBtn.querySelector('i').classList.remove('fa-times');
-                menuBtn.querySelector('i').classList.add('fa-bars');
-            });
-        });
-
-        // Scroll Reveal Animation - DISABLED for official look
-        // function reveal() { ... }
-
-        // Background Text Parallax Animation (Vertical)
-        window.addEventListener('scroll', function () {
-            const skillsText = document.querySelector('.section-title-big');
-            const section = document.querySelector('.services-section');
-
-            if (skillsText && section) {
-                const sectionTop = section.offsetTop;
-                const scrollY = window.scrollY;
-                const windowHeight = window.innerHeight;
-
-                // Only animate when section is in view
-                if (scrollY + windowHeight > sectionTop) {
-                    const distance = scrollY - sectionTop;
-                    // Move text vertically slower than scroll to create "hide behind" effect
-                    // translateY positive value moves it down (stays with scroll)
-                    // translateY negative moves it up (disappears faster)
-
-                    // Option: Move it down slightly as we scroll so cards cover it
-                    skillsText.style.transform = `translateY(${distance * 0.3}px)`;
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>
