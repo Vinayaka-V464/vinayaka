@@ -19,8 +19,26 @@
     <!-- Before load -->
     <div class="preloader">
         <div class="preloader-wrapper">
-            <div class="loader"></div>
-            <div class="loadtext">Loading portfolio...<br>(⊙ Д ⊙)</div>
+            <div class="loader-container">
+                <div class="loader-ring">
+                    <svg class="progress-ring" width="150" height="150">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#967259;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#dbc1ac;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#967259;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle class="progress-ring-bg" cx="75" cy="75" r="65" />
+                        <circle class="progress-ring-circle" cx="75" cy="75" r="65" />
+                    </svg>
+                    <div class="loader-percentage">0%</div>
+                </div>
+                <div class="loader-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <div class="loadtext">Loading portfolio...</div>
         </div>
     </div>
 

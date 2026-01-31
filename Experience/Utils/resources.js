@@ -66,8 +66,31 @@ export default class Resources extends EventEmitter {
     this.items[asset.name] = file;
     this.loaded++;
 
+    // Calculate and emit progress
+    const progress = Math.round((this.loaded / this.queue) * 100);
+    this.emit("progress", progress);
+
+    // Update loader UI
+    this.updateLoaderUI(progress);
+
     if (this.loaded === this.queue) {
       this.emit("ready");
+    }
+  }
+
+  updateLoaderUI(progress) {
+    const percentageEl = document.querySelector('.loader-percentage');
+    const progressCircle = document.querySelector('.progress-ring-circle');
+
+    if (percentageEl) {
+      percentageEl.textContent = `${progress}%`;
+    }
+
+    if (progressCircle) {
+      // Circle circumference = 2 * PI * radius = 2 * 3.14159 * 65 = 408.4
+      const circumference = 408.4;
+      const offset = circumference - (progress / 100) * circumference;
+      progressCircle.style.strokeDashoffset = offset;
     }
   }
 }

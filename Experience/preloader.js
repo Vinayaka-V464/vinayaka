@@ -364,14 +364,6 @@ export default class Preloader extends EventEmitter {
                     ease: "power1.out",
                 }, "electronics")
 
-                // Display items 
-                .to(this.roomChildren.book1.scale, {
-                    x: 1.006807804107666,
-                    y: 1.006807804107666,
-                    z: 1.006807804107666,
-                    ease: "power1.out",
-                }, "chair")
-
                 //Chair
                 .to(this.roomChildren.hardware002.scale, {
                     x: 19.73757553100586,
