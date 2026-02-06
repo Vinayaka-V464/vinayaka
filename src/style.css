@@ -854,7 +854,8 @@ p,
 
   .hero-main-description {
     font-size: 14px;
-    white-space: nowrap;
+    white-space: normal;
+    overflow: visible;
   }
 
   .hero-second-subheading {
